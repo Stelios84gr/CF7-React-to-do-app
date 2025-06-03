@@ -8,20 +8,21 @@ type Action =
 type TodoFormProps = {
     dispatch: React.Dispatch<Action>;
 };
-
+// passes the parent component's reducer Action as a Prop
 const TodoForm = ({ dispatch }: TodoFormProps) => {
 
     const [text, setText] = useState("");
 
+    // arrow function with event e as a parameter which is a React.ChangeEvent that takes an HTMLInputElement
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setText(e.target.value);
     };
 
-    const handleSubmit = (e: React.FormEvent) =>{
-        e.preventDefault();
-        if (text.trim() !== "") {
-            dispatch({type: "ADD", payload: text});
-            setText("");
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault(); // prevents the form from reloading afer submission
+        if (text.trim() !== "") {   // doesn't allow spaces in the start and the end
+            dispatch({type: "ADD", payload: text}); // text from the state
+            setText("");    // clear the input element
         }
     };
 
@@ -29,14 +30,14 @@ const TodoForm = ({ dispatch }: TodoFormProps) => {
         <>
             <form
                 className="flex gap-4 mb-4"
-                onSubmit={handleSubmit}
+                onSubmit={handleSubmit} // searches for a submit button or input element enter press
             >
                 <input
                     type="text"
                     value={text}
                     onChange={handleChange}
                     className="flex-1 border p-2 rounded"
-                    placeholder="New task.."
+                    placeholder="new task..."
                 />
                 <button
                     type="submit"
