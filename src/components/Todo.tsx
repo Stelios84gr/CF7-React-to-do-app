@@ -1,5 +1,5 @@
-import TodoForm from "./TodoForm.tsx";
 import { useReducer } from "react";
+import TodoForm from "./TodoForm.tsx";
 import TodoList from "./TodoList.tsx";
 
 // elements we want each to-do element to include, text and an id to add/delete it by
@@ -17,7 +17,7 @@ const todoReducer = (state: TodoProps[], action: Action): TodoProps[] => {
         case "ADD": {
                 const newTodo: TodoProps = {
                     id: Date.now(),
-            text: action.payload
+                    text: action.payload
         };
             return [...state, newTodo]; // copies the current state array and adds a newTodo
                                         // array-spreading for immutability; doesn't modify existent array

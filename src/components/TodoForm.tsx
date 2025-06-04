@@ -19,8 +19,8 @@ const TodoForm = ({ dispatch }: TodoFormProps) => {
     };
 
     const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault(); // prevents the form from reloading afer submission
-        if (text.trim() !== "") {   // doesn't allow spaces in the start and the end
+        e.preventDefault(); // prevents the form from reloading after submission
+        if (text.trim() !== "") {   // doesn't allow spaces at the start and the end
             dispatch({type: "ADD", payload: text}); // text from the state
             setText("");    // clear the input element
         }
