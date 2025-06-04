@@ -1,16 +1,7 @@
 import { useReducer } from "react";
 import TodoForm from "./TodoForm.tsx";
 import TodoList from "./TodoList.tsx";
-
-// elements we want each to-do element to include, text and an id to add/delete it by
-type TodoProps = {
-    id: number;
-    text:string;
-}
-
-type Action =
-    | {type: "ADD"; payload: string}
-    | {type: "DELETE"; payload: number};
+import type { TodoProps, Action } from "../types.ts";
 
 const todoReducer = (state: TodoProps[], action: Action): TodoProps[] => {
     switch (action.type) {

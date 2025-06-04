@@ -1,13 +1,6 @@
 import { useState } from "react";
+import type {TodoFormProps} from "../types.ts";
 
-type Action =
-    | {type: "ADD"; payload: string}
-    | {type: "DELETE"; payload: number}
-
-
-type TodoFormProps = {
-    dispatch: React.Dispatch<Action>;
-};
 // passes the parent component's reducer Action as a Prop
 const TodoForm = ({ dispatch }: TodoFormProps) => {
 
