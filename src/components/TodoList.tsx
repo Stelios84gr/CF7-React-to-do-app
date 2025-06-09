@@ -12,7 +12,7 @@ const TodoList = ({todos, dispatch}: TodoListProps) => {
     }
 
     const handleEdit = (id: number, text: string)=> {
-        // no dispatch edit right away, EDIT action should happen after input data is saved
+        // enters edit mode, no dispatch edit right away, EDIT action should happen after input data is saved via handleSave
         setEditId(id);
         setEditText(text);
 
@@ -34,15 +34,17 @@ const TodoList = ({todos, dispatch}: TodoListProps) => {
     return (
         <>
             <ul className="space-y-2">
-                {todos.map(todo => (    // loops through the contents of the todo and renders it as a li
+                {todos.map(todo => (    // loops through the contents of the array state (todo) and renders array item as a li
                     // key: react identifier to keep track of list items
                     <li key={todo.id} className="flex items-center justify-between bg-gray-100 p-2 rounded">
-                        { editId === todo.id ? (    // if editId is todo.id, open input, else like it was before
+                        { editId === todo.id ? (    // if editId is todo.id, display edit more, else, view mode
                             <>
+                                {/*EDIT MODE*/}
                                 <div className="flex flex-1 gap-2">
                                     <input
                                         type="text"
                                         value={editText}
+                                        // onChange: when the user types
                                         onChange={(e) => setEditText(e.target.value)}
                                         className="w-62 border rounded p-1"
                                     />
@@ -65,6 +67,7 @@ const TodoList = ({todos, dispatch}: TodoListProps) => {
                             </>
                             ) : (
                                 <>
+                                    {/*VIEW MODE*/}
                                     <span>{todo.text}</span>
                                     <div className="flex gap-2">
                                         <button

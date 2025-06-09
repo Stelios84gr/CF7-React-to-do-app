@@ -6,21 +6,28 @@ import type { TodoProps, Action } from "../types.ts";
 const todoReducer = (state: TodoProps[], action: Action): TodoProps[] => {
     switch (action.type) {
         case "ADD": {
-                const newTodo: TodoProps = {
+            const newTodo: TodoProps = {
                     id: Date.now(),
                     text: action.payload
-        };
+            };
             return [...state, newTodo]; // copies the current state array and adds a newTodo
                                         // array-spreading for immutability; doesn't modify existent array
         }
-            case "DELETE":
-                    // returns a new array containing only todos whose id isn't the same as the action payload one
-                    return state.filter(todo => todo.id !== action.payload);
-            default: return state;
+        case "DELETE":
+            // returns a new array containing only todos whose id isn't the same as the action payload one
+            return state.filter(todo => todo.id !== action.payload);
+        case "EDIT":
+            return state.map( todo =>
+                todo.id === action.payload.id
+                ? {...todo, text: action.payload.newText}   // object spread - return a todo copy with newText
+                : todo
+            );
+            default:
+                return state;
     }
 }
 
-// also creates a specific kind of comment
+// "Todo" also creates a specific kind of comment
 const Todo = () => {
 
     const [todos, dispatch] = useReducer(todoReducer, []);
