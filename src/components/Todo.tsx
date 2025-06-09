@@ -8,7 +8,8 @@ const todoReducer = (state: TodoProps[], action: Action): TodoProps[] => {
         case "ADD": {
             const newTodo: TodoProps = {
                     id: Date.now(),
-                    text: action.payload
+                    text: action.payload,
+                    completed: false
             };
             return [...state, newTodo]; // copies the current state array and adds a newTodo
                                         // array-spreading for immutability; doesn't modify existent array
@@ -21,7 +22,13 @@ const todoReducer = (state: TodoProps[], action: Action): TodoProps[] => {
                 todo.id === action.payload.id
                 ? {...todo, text: action.payload.newText}   // object spread - return a todo copy with newText
                 : todo
-            );
+            )
+        case "COMPLETE":
+            return state.map( todo =>
+                todo.id === action.payload
+                ? {...todo, completed: !todo.completed}
+                : todo
+            )
             default:
                 return state;
     }

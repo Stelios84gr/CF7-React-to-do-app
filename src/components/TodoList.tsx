@@ -1,4 +1,4 @@
-import {Trash2, Edit, Save, X } from "lucide-react";
+import {Trash2, Edit, Save, X, Square, CheckSquare } from "lucide-react";
 import type { TodoListProps } from "../types.ts";
 import {useState} from "react";
 
@@ -26,7 +26,11 @@ const TodoList = ({todos, dispatch}: TodoListProps) => {
         dispatch({type: "EDIT", payload: {id, newText: editText}});
         setEditId(null);    // so edit mode returns to default mode
         setEditText("");
-    };
+    }
+    const handleToggle = (id: number) => {
+        dispatch({type: "COMPLETE", payload: id})
+        }
+    ;
 
 
 
@@ -36,7 +40,11 @@ const TodoList = ({todos, dispatch}: TodoListProps) => {
             <ul className="space-y-2">
                 {todos.map(todo => (    // loops through the contents of the array state (todo) and renders array item as a li
                     // key: react identifier to keep track of list items
-                    <li key={todo.id} className="flex items-center justify-between bg-gray-100 p-2 rounded">
+                    <li key={todo.id}
+                        // template literal with standard classes & dynamic class via ternary statement
+                        className={`flex items-center justify-between bg-gray-100 p-2 rounded
+                        ${todo.completed ? "opacity-60 line-through": ""}`}
+                    >
                         { editId === todo.id ? (    // if editId is todo.id, display edit more, else, view mode
                             <>
                                 {/*EDIT MODE*/}
@@ -67,8 +75,23 @@ const TodoList = ({todos, dispatch}: TodoListProps) => {
                             </>
                             ) : (
                                 <>
+                                    <div className="flex item-center gap-2 flex-1">
                                     {/*VIEW MODE*/}
-                                    <span>{todo.text}</span>
+                                        <button
+                                        // onClick={handleToggle(todo.id)}:
+                                        // this  executes handleToggle immediately, even if it's inside onClick
+                                        // so, onClick doesn't get a function but its result
+                                        onClick={() => handleToggle(todo.id)}
+                                        className="text-green-500"
+                                        >
+                                            {todo.completed ? (
+                                                <CheckSquare size={18}/>
+                                            ) : (
+                                                <Square size={18}/>
+                                            )}
+                                        </button>
+                                        <span>{todo.text}</span>
+                                    </div>
                                     <div className="flex gap-2">
                                         <button
                                             onClick={() => handleEdit(todo.id, todo.text)}
