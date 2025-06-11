@@ -1,7 +1,12 @@
-import { useReducer } from "react";
+import {useReducer, useEffect} from "react";
 import TodoForm from "./TodoForm.tsx";
 import TodoList from "./TodoList.tsx";
 import type { TodoProps, Action } from "../types.ts";
+
+const getInitialTodos = () => {
+    const stored = localStorage.getItem("todos")
+    return stored ? JSON.parse(stored) : [];    // stored as string; we want it as JSON
+}
 
 const todoReducer = (state: TodoProps[], action: Action): TodoProps[] => {
     switch (action.type) {
@@ -37,8 +42,15 @@ const todoReducer = (state: TodoProps[], action: Action): TodoProps[] => {
 // "Todo" also creates a specific kind of comment
 const Todo = () => {
 
-    const [todos, dispatch] = useReducer(todoReducer, []);
-    // const [todos, setTodos] = useState([]); // με useState
+    // []: each time app starts, states is initialized as empty, so all local storage content is deleted
+    // starts with initial state [] which changes by getInitialTodos
+    const [todos, dispatch] = useReducer(todoReducer, [], getInitialTodos);
+    // const [todos, setTodos] = useState([]); // with useState
+
+    useEffect(() => {
+        // local storage contains key-value pairs, so we set a key-value pair when state changes
+        localStorage.setItem("todos", JSON.stringify(todos));
+    }, [todos])
 
     return (
         <>
