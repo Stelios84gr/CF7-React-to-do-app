@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import type { TodoFormProps } from "../types.ts";
 
 // passes the parent component's reducer Action as a Prop
@@ -21,10 +21,6 @@ const TodoForm = ({ dispatch, inputRef }: TodoFormProps) => {
             inputRef.current?.focus();
         }
     };
-
-    useEffect(() => {
-        inputRef.current?.focus();
-    }, [])
 
     return (
         <>

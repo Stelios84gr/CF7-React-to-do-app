@@ -55,15 +55,19 @@ const Todo = () => {
     const completedTasks: number = todos.filter(t => t.completed).length;
     const activeTasks: number = totalTasks - completedTasks;
 
+    const handleClearAll = () => {
+        dispatch({type: "CLEAR_ALL"});
+        inputRef.current?.focus();
+    }
+
     useEffect(() => {
         // local storage contains key-value pairs, so we set a key-value pair when state changes
         localStorage.setItem("todos", JSON.stringify(todos));
     }, [todos])
 
-    const handleClearAll = () => {
-        dispatch({type: "CLEAR_ALL"});
+    useEffect(() => {
         inputRef.current?.focus();
-    }
+    }, [])
 
     return (
         <>
