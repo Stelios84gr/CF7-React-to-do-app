@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { TodoFormProps } from "../types.ts";
 
 // passes the parent component's reducer Action as a Prop
-const TodoForm = ({ dispatch }: TodoFormProps) => {
+const TodoForm = ({ dispatch, inputRef }: TodoFormProps) => {
 
     const [text, setText] = useState("");
+
+    // const inputRef = useRef<HTMLInputElement>(null);
 
     // arrow function with event e as a parameter which is a React.ChangeEvent that takes an HTMLInputElement
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,8 +18,13 @@ const TodoForm = ({ dispatch }: TodoFormProps) => {
         if (text.trim() !== "") {   // doesn't allow spaces at the start and the end
             dispatch({type: "ADD", payload: text}); // text from the state
             setText("");    // clear the input element
+            inputRef.current?.focus();
         }
     };
+
+    useEffect(() => {
+        inputRef.current?.focus();
+    }, [])
 
     return (
         <>
@@ -26,6 +33,7 @@ const TodoForm = ({ dispatch }: TodoFormProps) => {
                 onSubmit={handleSubmit} // searches for a submit button or input element enter press
             >
                 <input
+                    ref={inputRef}
                     type="text"
                     value={text}
                     onChange={handleChange}
